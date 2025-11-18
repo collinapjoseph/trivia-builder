@@ -4,7 +4,7 @@ import pg from "pg";
 const app = express();
 const port = 3000;
 
-const pool = pg.Pool(
+const pool = new pg.Pool(
     {
         user: 'postgres',
         host: 'localhost',
@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.get('/', (req, res) => {
-  res.render('index.ejs');
+  res.render("index.ejs");
 });
 
 app.listen(port, () => {
