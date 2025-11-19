@@ -3,14 +3,24 @@ import pg from "pg";
 
 const app = express();
 const port = 3000;
+var pool = null;
 
-const pool = new pg.Pool({
-  user: "postgres",
-  host: "localhost",
-  database: "trivia",
-  password: "licence black supply",
-  port: 5432,
-});
+if (process.env.DATABASE_URL) {
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+    ssl: {
+      rejectUnauthorized: false, // Required for Neon
+    },
+  });
+} else {
+  pool = new pg.Pool({
+    host: process.env.PGHOST || "localhost",
+    user: process.env.PGUSER || "postgres",
+    password: process.env.PGPASSWORD || "licence black supply",
+    database: process.env.PGDATABASE || "trivia",
+    port: Number(process.env.PGPORT) || 5432,
+  });
+}
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -83,19 +93,19 @@ app.get("/create-games", async (req, res) => {
 app.post("/create-games", async (req, res) => {
   const newGame = req.body;
   var message = "";
-  
-  if (newGame.title === ""){
-    message = "Title cannot be empty."
+
+  if (newGame.title === "") {
+    message = "Title cannot be empty.";
     res.redirect(`/create-games?message=${message}`);
     return;
   }
 
-  if(!newGame.questions){
-    message = "At least 1 question must be included."
+  if (!newGame.questions) {
+    message = "At least 1 question must be included.";
     res.redirect(`/create-games?message=${message}`);
     return;
   }
-  
+
   var question_ids = [];
   if (newGame.questions.length === 1) {
     question_ids = [Number(newGame.questions)];
@@ -124,7 +134,7 @@ app.post("/create-games", async (req, res) => {
 app.get("/browse-games", async (req, res) => {
   const queryRes = await pool.query("SELECT * FROM games");
   const games = queryRes.rows;
-  res.render("browse-games.ejs", {games:games});
+  res.render("browse-games.ejs", { games: games });
 });
 
 app.listen(port, () => {
