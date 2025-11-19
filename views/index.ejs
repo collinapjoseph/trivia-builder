@@ -1,16 +1,39 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trivia Builder</title>
-</head>
-<body>
-    <h1>Trivia Builder</h1>
-    <a href="/login">Login</a>
-    <a href="/create-questions">Create Questions</a>
-    <a href="/browse-questions">Browse Questions</a>
-    <a href="/create-games">Create Game</a>
-    <a href="/browse-games">Browse Games</a>
-</body>
+  <%- include("partials/head.ejs") %>
+  <body>
+    <%- include("partials/header.ejs") %>
+
+    <div class="container">
+      <h1 class="mb-4 border-bottom">Trivia Builder</h1>
+
+      <div class="list-group">
+        <a
+          href="/create-questions"
+          class="list-group-item list-group-item-action">
+          Create Questions
+        </a>
+        
+        <a
+          href="/browse-questions"
+          class="list-group-item list-group-item-action">
+          Browse Questions
+        </a>
+        
+        <a
+          href="/create-games"
+          class="list-group-item list-group-item-action">
+          Create Games
+        </a>
+        
+        <a
+          href="/browse-games"
+          class="list-group-item list-group-item-action">
+          Browse Games
+        </a>        
+      </div>
+    </div>
+
+    <%- include("partials/footer.ejs") %>
+  </body>
 </html>
