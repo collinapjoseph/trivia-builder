@@ -70,7 +70,6 @@ app.get("/create-games", async (req, res) => {
   const queryRes = await pool.query("SELECT * FROM questions");
   const questions = queryRes.rows;
 
-  console.log(req.query);
   if (req.query.message) {
     res.render("create-games.ejs", {
       questions: questions,
@@ -123,7 +122,9 @@ app.post("/create-games", async (req, res) => {
 });
 
 app.get("/browse-games", async (req, res) => {
-  res.render("browse-games.ejs");
+  const queryRes = await pool.query("SELECT * FROM games");
+  const games = queryRes.rows;
+  res.render("browse-games.ejs", {games:games});
 });
 
 app.listen(port, () => {
