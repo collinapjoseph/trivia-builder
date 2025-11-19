@@ -3,11 +3,19 @@
   <%- include("partials/head.ejs") %>
   <body>
     <%- include("partials/header.ejs") %>
-    
+
     <div class="container">
-        <h1>Browse Games</h1>
+      <h1 class="mb-4 border-bottom">Browse Games</h1>
+      <% if(games.length > 0){ %> <% games.forEach(item =>{ %>
+      <ul class="list-group list-group-flush">
+        <li class="list-group-item list-group-item-action browse-item">
+          <p class="browse-game"><strong><%= item.title %></strong></p>
+          <p class="browse-game-info text-body-secondary">Questions: <%= item.question_ids.length %></p>
+        </li>
+      </ul>
+      <% }); %> <% } %>
     </div>
-    
+
     <%- include("partials/footer.ejs") %>
   </body>
 </html>
