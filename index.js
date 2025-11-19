@@ -2,9 +2,9 @@ import express from "express";
 import pg from "pg";
 
 const app = express();
-const port = 3000;
-var pool = null;
+const port = process.env.PORT || 3000;
 
+var pool = null;
 if (process.env.DATABASE_URL) {
   pool = new Pool({
     connectionString: process.env.DATABASE_URL,
