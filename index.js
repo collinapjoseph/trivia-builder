@@ -2,15 +2,13 @@ import express from "express";
 import pg from "pg";
 
 const app = express();
-const port = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000;
+const DATABASE_URL = process.env.DATABASE_URL;
 
 var pool = null;
-if (process.env.DATABASE_URL) {
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-    ssl: {
-      rejectUnauthorized: false, // Required for Neon
-    },
+if (DATABASE_URL) {
+  pool = new pg.Pool({
+    connectionString: DATABASE_URL,
   });
 } else {
   pool = new pg.Pool({
@@ -137,6 +135,6 @@ app.get("/browse-games", async (req, res) => {
   res.render("browse-games.ejs", { games: games });
 });
 
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
+app.listen(PORT, () => {
+  console.log(`Server running on port: ${PORT}`);
 });
